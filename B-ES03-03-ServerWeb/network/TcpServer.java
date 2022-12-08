@@ -62,19 +62,19 @@ public class TcpServer {
                         break;
 
                     case "/on":
-						serverMsg += "<font color="blue">Luci accese</font>";
+						serverMsg += "<h3>Luci accese<h3>";
                         break;
 
                     case "/off":
-						serverMsg += "<b><h2>Luci spente</h2></b>";
+						serverMsg += "<h3>Luci spente</h3>";
                         break;
 
 					case "/quit":
-						serverMsg += "<b><h2>Uscita dal server...</h2></b>";
+						serverMsg += "<h3>Uscita dal server...</h3>";
 						flag = true;
                         break;
 
-                    default : serverMsg += "<b><h2>Errore</h2></b>";
+                    default : serverMsg += "<h3>Errore</h3>";
                 }
             	System.out.print(serverMsg + "\n");		
                 outStream.write(serverMsg.getBytes());
