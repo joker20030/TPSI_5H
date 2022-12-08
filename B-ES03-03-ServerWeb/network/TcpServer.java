@@ -1,66 +1,100 @@
-/**
- * Implementazione di un server web utilizzando la comunicazione tramite socket.
- * Lettura dati multi riga provenienti dal client
- * 
- * from folder network/..
- * javac network/TcpServer.java; java network.TcpServer 
- */
-package network;
+/*
+Implementazione di un server web utilizzando la comunicazione tramite socket.
+Lettura dati multi riga provenienti dal cliente
+cd Es03/ServerWeb-OnOff/src/network
+java TcpServer.java
+*/
+ 
+ rete pacchetto ;
 
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+importa  java . io .*;
+importa  java . netto . ServerSocket ;
+importa  java . netto . Presa ;
 
-public class TcpServer {
-	public static void main(String[] args) throws Exception {
+ classe  pubblica TcpServer {
+	public  static  void  main ( String [] args ) lancia  Exception {
 		
-		final int SERVER_PORT=8765;
-		String clientMsg = "";
-		
-		try {			 
+		final  int  SERVER_PORT = 8765 ;
+		String  clientMsg = "" ;
+		Stringa  serverMsg = "" ;
+		 flag booleano ;
+		// URL url = nuovo URL("https://www.favicon.cc/");
+		// favicon.ico serverMsg += url;
+
+		prova {			 
 			// Creazione del socket sul server e ascolto sulla porta
-			ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
-			System.out.println("Server: in ascolto sulla porta " + SERVER_PORT);
+			ServerSocket  serverSocket = new  ServerSocket ( SERVER_PORT );
+			Sistema . fuori . println ( "Server: in ascolto sulla porta " + SERVER_PORT );
 
-			boolean endConn=false;
-			while(!endConn) {
+			bandiera = falso ;
+			while (! flag ) {
 				// Attesa della connessione con il client
-				System.out.println("Attesa ricezione dati dal client ....................... \n");
-				Socket clientSocket = serverSocket.accept();
+				Sistema . fuori . println ( "\nAttesa ricezione dati dal client ....................... \n" );
+				Socket  clientSocket = serverSocket . accettare ();
 				
-				// Create output stream to write data and input stream to read data from socket
-				DataOutputStream outStream = new DataOutputStream(clientSocket.getOutputStream());	
-				BufferedReader inStream = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-	
-				// ---------------------------------------------------------
-				//Lettura dati dal client un righa alla volta   
-				while ((clientMsg=inStream.readLine()).length() != 0) {
-					System.out.println(clientMsg);	
-				}  
-				// Elaborare qui i dati ricevuti dal client 
-				// ---------------------------------------------------------
+				// Crea un flusso di output per scrivere i dati e un flusso di input per leggere i dati dal socket
+				DataOutputStream  outStream = nuovo  DataOutputStream ( clientSocket . getOutputStream ());	
+				BufferedReader  inStream = nuovo  BufferedReader ( nuovo  InputStreamReader ( clientSocket . getInputStream ()));
+				
+                //Lettura dati dal client un diritto alla volta   
+                clientMsg = inStream . readLine ();
+				Sistema . fuori . println ( clientMsg );	
+		 
+                // Elaborare qui i dati ricevuti dal client
+
+                clientMsg . tagliare ();	//tolgo gli spazi all'inizio e alla fine della stringa
+				Stringa  arrayCliMsg []= clientMsg . diviso ( "\\s+" );
 
 				//Invio dei dati su stream di rete al client
-				clientMsg = "HTTP/1.1 200 OK\r\n";
-				//clientMsg += "Connection: close\r\n";
-				//clientMsg += "Content-Type: text/plain\r\n";
-				clientMsg += "\r\n";
-				clientMsg += "Saluti dal web server Java";
-				outStream.write(clientMsg.getBytes());
-				outStream.flush();
+				serverMsg = "HTTP/1.1 200 OK\r\n" ;
+				//serverMsg += "Connessione: chiudi\r\n";
+				serverMsg += "Tipo di contenuto: testo/html\r\n" ;
+                serverMsg += "\r\n" ;
+				
+                interruttore ( arrayCliMsg [ 1 ]) {
 
-				System.out.println("\n....................... Fine ricezione dati\n");
-				// Close resources
-				clientSocket.close();
-				inStream.close();
-				outStream.close();
+				    caso  "/" :
+						serverMsg += "<b><h2>Saluti da Marco Zambelan!!</h2></b>" ;
+						serverMsg += "<b><h3>Digita 'info' per vedere i comandi disponibili." ;
+                        rompere ;
+
+					caso  "/info" :
+						serverMsg += "<b><h2>Comandi disponibili:</h2></b>" ;
+						serverMsg += "<b><h3>'on' : accende le luci;</h3></b>" ;
+						serverMsg += "<b><h3>'off' : spegne le luci;</h3></b>" ;
+						serverMsg += "<b><h3>'esci' : esce dal server;</h3></b>" ;
+						rompere ;
+
+                    maiuscole e minuscole  "/on" :
+						serverMsg += "<b><h2>Luci accese</h2></b>" ;
+                        rompere ;
+
+                    caso  "/off" :
+						serverMsg += "<b><h2>Luci spente</h2></b>" ;
+                        rompere ;
+
+					case  "/esci" :
+						serverMsg += "<b><h2>Uscita dal server...</h2></b>" ;
+						contrassegno = vero ;
+                        rompere ;
+
+                    default : serverMsg += "<b><h2>Errore</h2></b>" ;
+                }
+            	Sistema . fuori . stampa ( serverMsg + "\n" );		
+                outstream . scrivere ( serverMsg . getBytes ());
+				outstream . filo ();
+				
+				// Chiudi le risorse
+				clientSocket . chiudere ();
+				inStream . chiudere ();
+				outstream . chiudere ();
 			}
+			Sistema . fuori . println ( "\n.......................Fine ricezione dati\n" );
+			// Chiudi le risorse
+			serverSocket . chiudere ();
 
-			// Close resources
-			serverSocket.close();
-
-		} catch (Exception e) {
-			System.out.println(e);
+		} catch ( Eccezione  e ) {
+			Sistema . fuori . println ( e );
 		}
 	}
 }
