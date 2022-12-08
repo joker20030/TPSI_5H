@@ -54,11 +54,11 @@ public class TcpServer {
                 switch(arrayCliMsg[1]) {
 
 				    case "/":
-						serverMsg += "<b><h2>Saluti da FORLEO!!</h2></b>";
+						serverMsg += "<b><h1>Saluti da FORLEO!!</h1></b>";
 						serverMsg += "<b><h2>Comandi disponibili:</h2></b>";
-						serverMsg += "<b><h3>'on' : accende le luci;</h3></b>";
-						serverMsg += "<b><h3>'off' : spegne le luci;</h3></b>";
-						serverMsg += "<b><h3>'quit' : esce dal server;</h3></b>";
+						serverMsg += "<h3>'on' : accende le luci;</h3>";
+						serverMsg += "<h3>'off' : spegne le luci;</h3>";
+						serverMsg += "<h3>'quit' : esce dal server;</h3>";
                         break;
 
                     case "/on":
