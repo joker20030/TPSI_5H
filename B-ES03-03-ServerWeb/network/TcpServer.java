@@ -62,7 +62,7 @@ public class TcpServer {
                         break;
 
                     case "/on":
-						serverMsg += "<b><h2>Luci accese</h2></b>";
+						serverMsg += "Luci accese";
                         break;
 
                     case "/off":
